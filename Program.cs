@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MOCKAPP.Server.Data;
+using MOCKAPP.Server.Model;
+using MOCKAPP.Server.Service;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,10 +15,11 @@ ConfigurationManager configuration = builder.Configuration;
 // For Entity Framework
 builder.Services.AddDbContext<Dbcontext>(options => options.UseSqlServer(configuration.GetConnectionString("ConnStr")));
 // For Identity
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<Dbcontext>()
     .AddDefaultTokenProviders();
 // Adding Authentication
+builder.Services.AddScoped<Iauthservice, authservice>();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("V1", new OpenApiInfo

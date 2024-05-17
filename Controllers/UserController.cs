@@ -11,11 +11,11 @@ namespace MOCKAPP.Server.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
         public UserController(
-           UserManager<IdentityUser> userManager,
+           UserManager<ApplicationUser> userManager,
            RoleManager<IdentityRole> roleManager,
            IConfiguration configuration)
         {
@@ -28,37 +28,59 @@ namespace MOCKAPP.Server.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] Register model)
         {
-            var userExists = await _userManager.FindByNameAsync(model.UserName);
-            if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
-            IdentityUser user = new()
+            var userExist = await _userManager.FindByNameAsync(model.UserName);
+            if (userExist != null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response
+                {
+                    Status = "Error",
+                    Message = "User already exists!"
+                });
+            ApplicationUser user = new()
             {
+                UserName = model.UserName,
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.UserName
+
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response
+                {
+                    Status = "Error",
+                    Message = "User creation failed! Please check user details and try again."
+                });
+            return Ok(new Response
+            {
+                Status = "Success",
+                Message = "User created successfully!"
+            });
         }
 
         [HttpPost]
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] Register model)
         {
-            var userExists = await _userManager.FindByNameAsync(model.UserName);
-            if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
-            IdentityUser user = new()
+            var userExist = await _userManager.FindByEmailAsync(model.Email);
+            if (userExist != null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response
+                {
+                    Status = "Error",
+                    Message = "User already exists!"
+                });
+            ApplicationUser user = new ()
             {
+                UserName = model.UserName,
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.UserName
+                
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response
+                {
+                    Status = "Error",
+                    Message = "User creation failed! Please check user details and try again."
+                });
             if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
             if (!await _roleManager.RoleExistsAsync(UserRoles.User))
@@ -79,25 +101,38 @@ namespace MOCKAPP.Server.Controllers
         [Route("Studentreg")]
         public async Task<IActionResult> Studentreg([FromBody] Register model)
         {
-            var userExists = await _userManager.FindByNameAsync(model.UserName);
-            if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
-            IdentityUser user = new()
+            var userExist = await _userManager.FindByNameAsync(model.UserName);
+            if (userExist != null)
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response
+                {
+                    Status = "Error",
+                    Message = "User already exists!"
+                });
+            ApplicationUser user = new()
             {
+                UserName = model.UserName,
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.UserName
+
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response
+                {
+                    Status = "Error",
+                    Message = "User creation failed! Please check user details and try again."
+                });
             if (!await _roleManager.RoleExistsAsync(UserRoles.Student))
                 await _roleManager.CreateAsync(new IdentityRole(UserRoles.Student));
             if (await _roleManager.RoleExistsAsync(UserRoles.Student))
             {
                 await _userManager.AddToRoleAsync(user, UserRoles.Student);
             }
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            return Ok(new Response
+            {
+                Status = "Success",
+                Message = "User created successfully!"
+            });
         }
     }
 }

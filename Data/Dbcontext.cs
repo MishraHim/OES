@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace MOCKAPP.Server.Data
 {
-    public class Dbcontext : IdentityDbContext<IdentityUser>
+    public class Dbcontext :  IdentityDbContext<ApplicationUser>
     {
 
         public Dbcontext(DbContextOptions<Dbcontext> options) : base(options)
