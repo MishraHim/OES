@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MOCKAPP.Server.Model
 {
@@ -6,9 +7,14 @@ namespace MOCKAPP.Server.Model
     {
         [Key]
         public int optionID { get; set; }
-        public string QuesId { get; set; }
-        public string QuesName { get; set; }
+      
+        public int Ques_Id { get; set; }
+        public string PaperID { get; set; }
+        public string optionName { get; set; }
         public int Correct { get; set; }
+        
+
+      
     }
 }
 

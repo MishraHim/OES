@@ -16,7 +16,7 @@ namespace MOCKAPP.Server.Controllers
             _context = context;
         }
 
-        [HttpGet, Authorize(Roles = "Admin")]
+        [HttpGet]
         [Route("CourseType")]
         public async Task<IActionResult> GetType()
         {
@@ -72,6 +72,8 @@ namespace MOCKAPP.Server.Controllers
             return Ok(type);
         }
 
+       
+        
         [HttpPost]
         [Route("CreateType")]
         public async Task<ActionResult<coursetype>> CreateType(coursetype type)

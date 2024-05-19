@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MOCKAPP.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class initialv125 : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,21 +39,6 @@ namespace MOCKAPP.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Options",
-                columns: table => new
-                {
-                    optionID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    QuesId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    QuesName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Correct = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Options", x => x.optionID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Paper",
                 columns: table => new
                 {
@@ -67,6 +52,22 @@ namespace MOCKAPP.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Paper", x => x.PaperID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductCost = table.Column<int>(type: "int", nullable: false),
+                    ProductStock = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.ProductId);
                 });
 
             migrationBuilder.CreateTable(
@@ -114,6 +115,33 @@ namespace MOCKAPP.Server.Migrations
                 {
                     table.PrimaryKey("PK_section", x => x.sectionId);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Options",
+                columns: table => new
+                {
+                    optionID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Ques_Id = table.Column<int>(type: "int", nullable: false),
+                    PaperID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    optionName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Correct = table.Column<int>(type: "int", nullable: false),
+                    QuestionQuesId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Options", x => x.optionID);
+                    table.ForeignKey(
+                        name: "FK_Options_Question_QuestionQuesId",
+                        column: x => x.QuestionQuesId,
+                        principalTable: "Question",
+                        principalColumn: "QuesId");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Options_QuestionQuesId",
+                table: "Options",
+                column: "QuestionQuesId");
         }
 
         /// <inheritdoc />
@@ -132,13 +160,16 @@ namespace MOCKAPP.Server.Migrations
                 name: "Paper");
 
             migrationBuilder.DropTable(
-                name: "Question");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Schedule");
 
             migrationBuilder.DropTable(
                 name: "section");
+
+            migrationBuilder.DropTable(
+                name: "Question");
         }
     }
 }

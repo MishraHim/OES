@@ -11,11 +11,13 @@ namespace MOCKAPP.Server.Data
 
         public Dbcontext(DbContextOptions<Dbcontext> options) : base(options)
         {
+         
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
         }
+
         public DbSet<Product> Products { get; set; }
         public DbSet<coursetype> coursetype { get; set; }
         public DbSet<course> course { get; set; }
