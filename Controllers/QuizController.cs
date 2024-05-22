@@ -20,7 +20,7 @@ namespace MOCKAPP.Server.Controllers
 
         [HttpGet]
         [Route("getquiz")]
-        public async Task<IActionResult> getquestion()
+        public async Task<IActionResult> getquiz()
         {
             var ques = await _context.Question
                 //.Where(x => x.QuesId == qid)

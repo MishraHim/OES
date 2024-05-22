@@ -20,6 +20,14 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddDefaultTokenProviders();
 // Adding Authentication
 builder.Services.AddScoped<Iauthservice, authservice>();
+builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+{
+    builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+    .AllowAnyOrigin()
+    .WithOrigins("https://localhost:7044/")
+    .AllowAnyMethod()
+    .AllowAnyHeader();
+}));
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("V1", new OpenApiInfo
@@ -85,6 +93,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 app.UseHttpsRedirection();
+app.UseCors("MyPolicy");
 // Authentication & Authorization
 app.UseAuthentication();
 app.UseAuthorization();
