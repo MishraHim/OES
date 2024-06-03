@@ -1,4 +1,6 @@
-﻿namespace MOCKAPP.Server.Dto
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MOCKAPP.Server.Dto
 {
     public class quizquestion
     {
@@ -12,6 +14,15 @@
         public string optionName { get; set; }
         public int optionID { get; set; }
        
+    }
+
+    public class qresponse
+    {
+        [Key]
+        public int id { get; set; }
+        public int QuesId { get; set; }
+        public string optionID { get; set; }
+
     }
 
 }
