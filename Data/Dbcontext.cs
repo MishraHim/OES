@@ -20,7 +20,7 @@ namespace MOCKAPP.Server.Data
         }
 
         public DbSet<Product> Products { get; set; }
-        public DbSet<qresponse> _response {  get; set; }
+        public DbSet<qresponse> responsedata {  get; set; }
         public DbSet<coursetype> coursetype { get; set; }
         public DbSet<course> course { get; set; }
         public DbSet<section> section { get; set; }

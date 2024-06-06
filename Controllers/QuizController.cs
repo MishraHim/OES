@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MOCKAPP.Server.Data;
 using MOCKAPP.Server.Dto;
 using MOCKAPP.Server.Model;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MOCKAPP.Server.Controllers
 {
@@ -43,26 +43,12 @@ namespace MOCKAPP.Server.Controllers
         {
             if (_res == null || _res.Count == 0)
             {
-                return BadRequest("Empty Responses.");
+                return BadRequest("Responses Can not be blank.");
             }
-
-            await _context._response.AddRangeAsync(_res);
+            await _context.responsedata.AddRangeAsync(_res);
             await _context.SaveChangesAsync();
-
             return CreatedAtAction(nameof(saveresponse), new { count = _res.Count }, _res);
-        }
-        //[HttpPost]
-        //[Route("saveresponse")]
-        //public async Task<ActionResult<qresponse>> saveresponse(qresponse _response)
-        //{
-        //    _context._response.Add(_response);
-        //    await _context.SaveChangesAsync();
-        //    return CreatedAtAction(nameof(GetType), new
-        //    {
-        //        QuesId = _response.QuesId,
-        //        optionID= _response.optionID
-        //    }, _response);
-        //}
+        }        
     }
 }
 
