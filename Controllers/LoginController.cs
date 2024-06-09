@@ -5,7 +5,9 @@ using Microsoft.IdentityModel.Tokens;
 using MOCKAPP.Server.Model;
 using MOCKAPP.Server.Service;
 using MOCKAPP.Server.User;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -33,10 +35,10 @@ namespace MOCKAPP.Server.Controllers
             {
                 if (!ModelState.IsValid)
                     return BadRequest("Invalid payload");
-                var (status, message) = await _authService.Login(model);
+                var (status, response) = await _authService.Login(model);
                 if (status == 0)
-                    return BadRequest(message);
-                return Ok(message);
+                    return BadRequest(response);              
+                return Ok(new { response });               
             }
             catch (Exception ex)
             {
@@ -44,6 +46,46 @@ namespace MOCKAPP.Server.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        //[HttpPost]
+        //[Route("login")]
+        //public async Task<IActionResult> Login([FromBody] Login model)
+        //{
+        //    var user = await _userManager.FindByNameAsync(model.UserName);
+        //    if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+        //    {
+        //        var userRoles = await _userManager.GetRolesAsync(user);
+
+        //        var authClaims = new List<Claim>
+        //        {
+        //            new Claim(ClaimTypes.Name, user.UserName),
+        //            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        //        };
+
+        //        foreach (var userRole in userRoles)
+        //        {
+        //            authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+        //        }
+
+        //        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+        //        var token = new JwtSecurityToken(
+        //            issuer: _configuration["JWT:ValidIssuer"],
+        //            audience: _configuration["JWT:ValidAudience"],
+        //            expires: DateTime.Now.AddHours(3),
+        //            claims: authClaims,
+        //            signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+        //            );
+
+        //        return Ok(new
+        //        {
+        //            token = new JwtSecurityTokenHandler().WriteToken(token),
+        //            expiration = token.ValidTo,
+        //            status = "Success"
+        //        }); ;
+        //    }
+        //    return Unauthorized();
+
+        //}
 
         //    private readonly UserManager<IdentityUser> _userManager;
 

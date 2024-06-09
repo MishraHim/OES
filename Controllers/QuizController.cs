@@ -5,10 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using MOCKAPP.Server.Data;
 using MOCKAPP.Server.Dto;
 using MOCKAPP.Server.Model;
+using StackExchange.Redis;
 
 namespace MOCKAPP.Server.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(Roles = "Student")]
     [ApiController]
     public class QuizController : ControllerBase
     {

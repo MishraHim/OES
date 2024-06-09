@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MOCKAPP.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+83cb7a72f995198ffbf328454fe6fb4533e53d43")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d2eeaed56d670bbd14fc228aab1420433a06e42b")]
 [assembly: System.Reflection.AssemblyProductAttribute("MOCKAPP.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MOCKAPP.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
